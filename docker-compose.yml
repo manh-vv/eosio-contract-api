@@ -38,16 +38,18 @@ services:
       - eosio-contract-api
   eosio-contract-api-postgres:
     container_name: eosio-contract-api-postgres
-    image: postgres:13
+    image: postgres:14.9
     restart: on-failure
     shm_size: '64gb'
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
+      POSTGRES_DB: ${POSTGRES_DB:-api-wax-mainnet-atomic-1}
     ports:
       - "5432:5432"
     volumes:
       - /mnt/dn/postgresql:/var/lib/postgresql/data
+      - /tmp/atomic.dump:/tmp/atomic.dump
     networks:
       - eosio-contract-api
 networks:
