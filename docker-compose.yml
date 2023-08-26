@@ -33,21 +33,21 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./docker/redis/data:/data
+      - /mnt/dn/redis:/data
     networks:
       - eosio-contract-api
   eosio-contract-api-postgres:
     container_name: eosio-contract-api-postgres
     image: postgres:13
     restart: on-failure
-    shm_size: '8gb'
+    shm_size: '64gb'
     environment:
-      - 'POSTGRES_USER=root'
-      - 'POSTGRES_PASSWORD=changeme'
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
     ports:
       - "5432:5432"
     volumes:
-      - ./docker/postgres/data:/var/lib/postgresql/data
+      - /mnt/dn/postgresql:/var/lib/postgresql/data
     networks:
       - eosio-contract-api
 networks:
