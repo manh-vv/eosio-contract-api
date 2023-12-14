@@ -1,5 +1,7 @@
 FROM node:16-alpine
 
+RUN apk --no-cache add curl
+
 RUN adduser --disabled-password application && \
   mkdir -p /home/application/app/ && \
   chown -R application:application /home/application
