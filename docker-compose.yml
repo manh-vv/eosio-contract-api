@@ -31,7 +31,7 @@ services:
     image: redis:5-alpine
     restart: on-failure
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - /mnt/dn/redis:/data
     networks:
@@ -46,7 +46,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
       POSTGRES_DB: ${POSTGRES_DB:-api-wax-mainnet-atomic-1}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - /mnt/dn/postgresql:/var/lib/postgresql/data
       - /tmp/atomic.dump:/tmp/atomic.dump
