@@ -7,6 +7,8 @@ node_modules
 
 # logs
 logs/*.log
+logs-filler/
+logs-server/
 
 # modules
 modules/enabled/*.js

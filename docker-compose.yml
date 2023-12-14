@@ -10,13 +10,19 @@ services:
       - eosio-contract-api-redis
     volumes:
       - ./config:/home/application/app/config
+      - ./logs-filler:/home/application/app/logs
     networks:
       - eosio-contract-api
   eosio-contract-api-server:
     container_name: eosio-contract-api-server
     build: .
     command: yarn run start:server
-    restart: on-failure
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:9000/alive"]
+      interval: 8s
+      timeout: 8s
+      retries: 3
     ports:
       - "9000:9000"
     depends_on:
@@ -24,6 +30,7 @@ services:
       - eosio-contract-api-redis
     volumes:
       - ./config:/home/application/app/config
+      - ./logs-server:/home/application/app/logs
     networks:
       - eosio-contract-api
   eosio-contract-api-redis:
