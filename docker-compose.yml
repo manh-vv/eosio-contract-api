@@ -1,6 +1,8 @@
 version: '3.0'
 services:
   eosio-contract-api-filler:
+    profiles:
+      - app
     container_name: eosio-contract-api-filler
     build: .
     command: yarn run start:filler
@@ -14,6 +16,8 @@ services:
     networks:
       - eosio-contract-api
   eosio-contract-api-server:
+    profiles:
+      - app
     container_name: eosio-contract-api-server
     build: .
     command: yarn run start:server
@@ -34,20 +38,31 @@ services:
     networks:
       - eosio-contract-api
   eosio-contract-api-redis:
+    profiles:
+      - default
+      - db
     container_name: eosio-contract-api-redis
     image: redis:5-alpine
     restart: on-failure
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
-      - /mnt/dn/redis:/data
+      - /mnt/dn1/redis:/data
     networks:
       - eosio-contract-api
   eosio-contract-api-postgres:
+    profiles:
+      - default
+      - db
     container_name: eosio-contract-api-postgres
     image: postgres:14.9
     restart: on-failure
     shm_size: '64gb'
+    deploy:
+      resources:
+        limits:
+          cpus: 24
+          memory: 64gb
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
@@ -55,7 +70,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - /mnt/dn/postgresql:/var/lib/postgresql/data
+      - /mnt/dn1/postgresql:/var/lib/postgresql/data
       - /tmp/atomic.dump:/tmp/atomic.dump
     networks:
       - eosio-contract-api
