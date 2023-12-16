@@ -1,6 +1,6 @@
 mk-docker-folder:
-	mkdir -p /mnt/dn/redis
-	mkdir -p /mnt/dn/postgresql
+	mkdir -p /mnt/dn1/redis
+	mkdir -p /mnt/dn1/postgresql
 
 create-env:
 	cp .env-sample .env
@@ -18,3 +18,6 @@ docker-up-filler:
 
 docker-up-server:
 	docker compose up -d eosio-contract-api-server
+
+docker-build:
+	docker compose build eosio-contract-api-filler

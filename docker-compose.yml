@@ -2,6 +2,7 @@ version: '3.0'
 services:
   eosio-contract-api-filler:
     container_name: eosio-contract-api-filler
+    image: eosio-contract-api
     build: .
     command: yarn run start:filler
     restart: on-failure
@@ -15,6 +16,7 @@ services:
       - eosio-contract-api
   eosio-contract-api-server:
     container_name: eosio-contract-api-server
+    image: eosio-contract-api
     build: .
     command: yarn run start:server
     restart: always
