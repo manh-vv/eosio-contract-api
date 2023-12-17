@@ -53,8 +53,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '24'
+          cpus: '12'
           memory: '64gb'
+        reservations:
+          cpus: '8'
+          memory: '32gb'
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
