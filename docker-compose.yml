@@ -42,21 +42,18 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
-      - /mnt/dn1/redis:/data
+      - /mnt/dn2/redis:/data
     networks:
       - eosio-contract-api
   eosio-contract-api-postgres:
     container_name: eosio-contract-api-postgres
     image: postgres:14.9
     restart: on-failure
-    shm_size: '64gb'
+    shm_size: '32gb'
     deploy:
       resources:
-        limits:
-          cpus: '12'
-          memory: '64gb'
         reservations:
-          cpus: '8'
+          cpus: '4'
           memory: '32gb'
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -66,7 +63,7 @@ services:
       - "127.0.0.1:5432:5432"
     volumes:
       - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
-      - /mnt/dn1/postgresql:/var/lib/postgresql/data
+      - /mnt/dn2/postgresql:/var/lib/postgresql/data
       - /tmp/atomic.dump:/tmp/atomic.dump
     networks:
       - eosio-contract-api

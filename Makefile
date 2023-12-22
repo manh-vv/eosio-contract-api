@@ -1,6 +1,6 @@
 mk-docker-folder:
-	mkdir -p /mnt/dn1/redis
-	mkdir -p /mnt/dn1/postgresql
+	mkdir -p /mnt/dn2/redis
+	mkdir -p /mnt/dn2/postgresql
 
 create-env:
 	cp .env-sample .env
