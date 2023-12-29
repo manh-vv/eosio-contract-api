@@ -188,6 +188,14 @@ Start
 * `pm2 start ecosystems.config.json --only eosio-contract-api-filler`
 * `pm2 start ecosystems.config.json --only eosio-contract-api-server`
 
+Log
+* `pm2 logs --raw -n 100 eosio-contract-api-filler`
+* `pm2 logs --raw -n 100 eosio-contract-api-server`
+
+Save for auto restart when server reboot https://pm2.keymetrics.io/docs/usage/startup/
+* `# pm2 startup`
+* `pm2 save`
+
 Stop
 * `pm2 stop eosio-contract-api-filler`
 * `pm2 stop eosio-contract-api-server`
