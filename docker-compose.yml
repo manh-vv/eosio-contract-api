@@ -48,6 +48,14 @@ services:
     image: postgres:14.9
     restart: on-failure
     shm_size: '64gb'
+    deploy:
+      resources:
+        limits:
+          cpus: '12'
+          memory: '80gb'
+        reservations:
+          cpus: '8'
+          memory: '32gb'
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
