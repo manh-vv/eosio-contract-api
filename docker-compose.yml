@@ -2,6 +2,7 @@ version: '3.0'
 services:
   eosio-contract-api-filler:
     container_name: eosio-contract-api-filler
+    image: eosio-contract-api
     build: .
     command: yarn run start:filler
     restart: on-failure
@@ -10,13 +11,20 @@ services:
       - eosio-contract-api-redis
     volumes:
       - ./config:/home/application/app/config
+      - ./logs-filler:/home/application/app/logs
     networks:
       - eosio-contract-api
   eosio-contract-api-server:
     container_name: eosio-contract-api-server
+    image: eosio-contract-api
     build: .
     command: yarn run start:server
-    restart: on-failure
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:9000/alive"]
+      interval: 8s
+      timeout: 8s
+      retries: 3
     ports:
       - "9000:9000"
     depends_on:
@@ -24,6 +32,7 @@ services:
       - eosio-contract-api-redis
     volumes:
       - ./config:/home/application/app/config
+      - ./logs-server:/home/application/app/logs
     networks:
       - eosio-contract-api
   eosio-contract-api-redis:
@@ -33,21 +42,32 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
-      - ./docker/redis/data:/data
+      - /mnt/dn1/redis:/data
     networks:
       - eosio-contract-api
   eosio-contract-api-postgres:
     container_name: eosio-contract-api-postgres
-    image: postgres:13
+    image: postgres:14.9
     restart: on-failure
-    shm_size: '8gb'
+    shm_size: '64gb'
+    deploy:
+      resources:
+        limits:
+          cpus: '12'
+          memory: '64gb'
+        reservations:
+          cpus: '8'
+          memory: '32gb'
     environment:
-      - 'POSTGRES_USER=root'
-      - 'POSTGRES_PASSWORD=changeme'
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SecretPgPw78&&00}
+      POSTGRES_DB: ${POSTGRES_DB:-api-wax-mainnet-atomic-1}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - ./docker/postgres/data:/var/lib/postgresql/data
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - /mnt/dn1/postgresql:/var/lib/postgresql/data
+      - /tmp/atomic.dump:/tmp/atomic.dump
     networks:
       - eosio-contract-api
 networks:
