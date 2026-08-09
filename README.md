@@ -1,5 +1,15 @@
 # EOSIO Contract API
 
+> **This repository is archived.** Its final release is
+> [v1.3.25](https://github.com/pinknetworkx/eosio-contract-api/releases/tag/v1.3.25),
+> which fixes a crash loop triggered by the AtomicAssets v2 `deltemplate` action
+> (`AtomicAssets: A template was deleted. Should not be possible by contract`).
+> Active development continues at
+> [atomicassets/atomicassets-api](https://github.com/atomicassets/atomicassets-api).
+> It shares this database lineage: point an existing deploy at its image and the
+> migrations run forward automatically - no re-sync. See its
+> [UPGRADING.md](https://github.com/atomicassets/atomicassets-api/blob/main/UPGRADING.md).
+
 The aim of this project is to provide a framework to fill and query state and history for specific
 contracts on eosio based blockchains. 
 
